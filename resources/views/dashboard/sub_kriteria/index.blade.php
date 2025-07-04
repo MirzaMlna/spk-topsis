@@ -2,37 +2,42 @@
 
 @section('container')
     <div class="flex flex-wrap -mx-3">
-        <div class="flex-none w-full max-w-full px-3">
+        <div class="w-full px-3">
             @if ($data != null)
                 @foreach ($data as $item)
-                    <div class="relative flex flex-col min-w-0 mb-5 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-                        <div class="flex flex-row items-center justify-between p-6 pb-0 mb-4 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                            <h6>Tabel Kriteria <span class="text-greenPrimary">{{ $item['kriteria'] }}</span></h6>
-                            <label for="add_button" id="label_{{ $item['kriteria'] }}" class="cursor-pointer inline-block px-3 py-2 font-bold text-center text-white rounded-lg text-sm ease-soft-in shadow-soft-md bg-gradient-to-br from-greenPrimary to-greenPrimary/80 shadow-soft-md hover:shadow-soft-xs active:opacity-85 hover:scale-102 transition-all">
+                    <div class="bg-white shadow rounded-xl p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4 border-b pb-4">
+                            <h6 class="text-lg font-semibold text-green-900">Tabel Kriteria <span
+                                    class="text-green-900">{{ $item['kriteria'] }}</span></h6>
+                            <label for="add_button" id="label_{{ $item['kriteria'] }}"
+                                class="cursor-pointer inline-block px-5 py-2 font-bold text-white rounded-lg text-base bg-gradient-to-br from-green-900 to-green-700 shadow hover:scale-105 transition-all">
                                 <i class="ri-add-fill"></i>
                                 Tambah {{ $judul }}
                             </label>
                         </div>
-                        <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                            <table id="{{ 'tabel_data_' . $item['kriteria'] }}" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-                                <thead>
+                        <div class="overflow-x-auto">
+                            <table id="{{ 'tabel_data_' . $item['kriteria'] }}"
+                                class="w-full text-sm border-t border-gray-200">
+                                <thead class="bg-gray-100">
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>Nilai</th>
-                                        <th>Aksi</th>
+                                        <th class="text-left py-2 px-4">Nama</th>
+                                        <th class="text-left py-2 px-4">Nilai</th>
+                                        <th class="text-left py-2 px-4">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($item['sub_kriteria'] as $subKriteria)
-                                        <tr>
-                                            <td>{{ $subKriteria['nama'] }}</td>
-                                            <td>{{ $subKriteria['nilai'] }}</td>
-                                            <td class="flex gap-x-3">
-                                                <label for="edit_button" class="cursor-pointer" onclick="return edit_button('{{ $subKriteria['id'] }}')">
-                                                    <i class="ri-pencil-line text-xl"></i>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="py-2 px-4">{{ $subKriteria['nama'] }}</td>
+                                            <td class="py-2 px-4">{{ $subKriteria['nilai'] }}</td>
+                                            <td class="py-2 px-4 flex gap-x-3">
+                                                <label for="edit_button" class="cursor-pointer"
+                                                    onclick="return edit_button('{{ $subKriteria['id'] }}')">
+                                                    <i class="ri-pencil-line text-xl text-green-900"></i>
                                                 </label>
-                                                <button onclick="return delete_button('{{ $subKriteria['id'] }}', '{{ $item['kriteria'] }}', '{{ $subKriteria['nama'] }}');">
-                                                    <i class="ri-delete-bin-line text-xl"></i>
+                                                <button
+                                                    onclick="return delete_button('{{ $subKriteria['id'] }}', '{{ $item['kriteria'] }}', '{{ $subKriteria['nama'] }}');">
+                                                    <i class="ri-delete-bin-line text-xl text-red-600"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -43,17 +48,17 @@
                     </div>
                 @endforeach
             @else
-                <div class="relative flex flex-col min-w-0 mb-5 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-                    <div class="flex flex-row items-center justify-between p-6 pb-0 mb-4 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <h6>Tabel Sub Kriteria</h6>
+                <div class="bg-white shadow rounded-xl p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4 border-b pb-4">
+                        <h6 class="text-lg font-semibold text-green-900">Tabel Sub Kriteria</h6>
                     </div>
-                    <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                        <table id="tabel_data" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-                            <thead>
+                    <div class="overflow-x-auto">
+                        <table id="tabel_data" class="w-full text-sm border-t border-gray-200">
+                            <thead class="bg-gray-100">
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>Nilai</th>
-                                    <th>Aksi</th>
+                                    <th class="text-left py-2 px-4">Nama</th>
+                                    <th class="text-left py-2 px-4">Nilai</th>
+                                    <th class="text-left py-2 px-4">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,34 +74,39 @@
             <div class="modal">
                 <div class="modal-box">
                     <form action="{{ route('sub_kriteria.simpan') }}" method="post" enctype="multipart/form-data">
-                        <h3 class="font-bold text-lg">Tambah {{ $judul }} <span class="text-greenPrimary" id="title_add_button"></span></h3>
-                            @csrf
-                            <input type="number" name="kriteria_id" id="kriteria_id_add_button" hidden>
-                            <input type="text" name="kode" id="kode_add_button" value="kode" hidden>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Nama</span>
-                                </label>
-                                <input type="text" name="nama" placeholder="Type here" class="input input-bordered w-full max-w-xs text-dark" value="{{ old('nama') }}" required />
-                                <label class="label">
-                                    @error('nama')
-                                        <span class="label-text-alt text-error">{{ $message }}</span>
-                                    @enderror
-                                </label>
-                            </div>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Nilai</span>
-                                </label>
-                                <input type="number" name="nilai" placeholder="Type here" class="input input-bordered w-full max-w-xs text-dark" value="{{ old('nilai') }}" required />
-                                <label class="label">
-                                    @error('nilai')
-                                        <span class="label-text-alt text-error">{{ $message }}</span>
-                                    @enderror
-                                </label>
-                            </div>
+                        <h3 class="font-bold text-lg text-green-900">Tambah {{ $judul }} <span
+                                class="text-green-900" id="title_add_button"></span></h3>
+                        @csrf
+                        <input type="number" name="kriteria_id" id="kriteria_id_add_button" hidden>
+                        <input type="text" name="kode" id="kode_add_button" value="kode" hidden>
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text">Nama</span>
+                            </label>
+                            <input type="text" name="nama" placeholder="Type here"
+                                class="input input-bordered w-full max-w-xs text-dark" value="{{ old('nama') }}"
+                                required />
+                            <label class="label">
+                                @error('nama')
+                                    <span class="label-text-alt text-error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text">Nilai</span>
+                            </label>
+                            <input type="number" name="nilai" placeholder="Type here"
+                                class="input input-bordered w-full max-w-xs text-dark" value="{{ old('nilai') }}"
+                                required />
+                            <label class="label">
+                                @error('nilai')
+                                    <span class="label-text-alt text-error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
                         <div class="modal-action">
-                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <button type="submit" class="btn bg-green-900 text-white hover:bg-green-800">Simpan</button>
                             <label for="add_button" class="btn">Batal</label>
                         </div>
                     </form>
@@ -109,74 +119,51 @@
             <div class="modal">
                 <div class="modal-box" id="edit_form">
                     <form action="{{ route('sub_kriteria.perbarui') }}" method="post" enctype="multipart/form-data">
-                        <h3 class="font-bold text-lg">Ubah {{ $judul }}: <span class="text-greenPrimary" id="title_form"><span class="loading loading-dots loading-md"></span></span></h3>
-                            @csrf
-                            <input type="text" name="id" hidden />
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Nama</span>
-                                    <span class="label-text-alt" id="loading_edit1"></span>
-                                </label>
-                                <input type="text" name="nama" placeholder="Type here" class="input input-bordered w-full max-w-xs text-dark" required />
-                                <label class="label">
-                                    @error('nama')
-                                        <span class="label-text-alt text-error">{{ $message }}</span>
-                                    @enderror
-                                </label>
-                            </div>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Nilai</span>
-                                    <span class="label-text-alt" id="loading_edit2"></span>
-                                </label>
-                                <input type="number" name="nilai" placeholder="Type here" class="input input-bordered w-full max-w-xs text-dark" required />
-                                <label class="label">
-                                    @error('nilai')
-                                        <span class="label-text-alt text-error">{{ $message }}</span>
-                                    @enderror
-                                </label>
-                            </div>
+                        <h3 class="font-bold text-lg text-green-900">Ubah {{ $judul }}: <span class="text-green-900"
+                                id="title_form"><span class="loading loading-dots loading-md"></span></span></h3>
+                        @csrf
+                        <input type="text" name="id" hidden />
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text">Nama</span>
+                                <span class="label-text-alt" id="loading_edit1"></span>
+                            </label>
+                            <input type="text" name="nama" placeholder="Type here"
+                                class="input input-bordered w-full max-w-xs text-dark" required />
+                            <label class="label">
+                                @error('nama')
+                                    <span class="label-text-alt text-error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
+                        <div class="form-control w-full max-w-xs">
+                            <label class="label">
+                                <span class="label-text">Nilai</span>
+                                <span class="label-text-alt" id="loading_edit2"></span>
+                            </label>
+                            <input type="number" name="nilai" placeholder="Type here"
+                                class="input input-bordered w-full max-w-xs text-dark" required />
+                            <label class="label">
+                                @error('nilai')
+                                    <span class="label-text-alt text-error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
                         <div class="modal-action">
-                            <button type="submit" class="btn btn-success">Perbarui</button>
+                            <button type="submit"
+                                class="btn bg-green-900 text-white hover:bg-green-800">Perbarui</button>
                             <label for="edit_button" class="btn">Batal</label>
                         </div>
                     </form>
                 </div>
                 <label class="modal-backdrop" for="edit_button">Close</label>
             </div>
-
         </div>
     </div>
 @endsection
 
 @section('js')
     <script>
-        // Tabel
-        $(document).ready(function() {
-            @if ($data != null)
-                @foreach ($data as $item)
-                    $("#tabel_data_{{ $item['kriteria'] }}").DataTable({
-                        responsive: true,
-                        order: [],
-                    })
-                    .columns.adjust()
-                    .responsive.recalc();
-
-                    $("#label_{{ $item['kriteria'] }}").click(function () {
-                        $("#title_add_button").html("{{ $item['kriteria'] }}");
-                        $("#kriteria_id_add_button").val("{{ $item['kriteria_id'] }}");
-                    });
-                @endforeach
-            @else
-                $("#tabel_data").DataTable({
-                        responsive: true,
-                        order: [],
-                    })
-                    .columns.adjust()
-                    .responsive.recalc();
-            @endif
-        });
-
         @if (session()->has('berhasil'))
             Swal.fire({
                 title: 'Berhasil',
@@ -201,7 +188,9 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal',
-                text: @foreach ($errors->all() as $error) '{{ $error }}' @endforeach,
+                text: @foreach ($errors->all() as $error)
+                    '{{ $error }}'
+                @endforeach ,
             })
         @endif
 
@@ -219,7 +208,7 @@
                     "_token": "{{ csrf_token() }}",
                     "id": id
                 },
-                success: function (data) {
+                success: function(data) {
                     // console.log(data);
                     let items = [];
                     $.each(data, function(key, val) {
@@ -244,8 +233,7 @@
         function delete_button(id, kriteria, nama) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                html:
-                    "<p>Data tidak dapat dipulihkan kembali!</p>" +
+                html: "<p>Data tidak dapat dipulihkan kembali!</p>" +
                     "<div class='divider'></div>" +
                     "<b>Data: Kriteria " + kriteria + " (" + nama + ")</b>",
                 icon: 'warning',
@@ -263,7 +251,7 @@
                             "_token": "{{ csrf_token() }}",
                             "id": id
                         },
-                        success: function (response) {
+                        success: function(response) {
                             Swal.fire({
                                 title: 'Data berhasil dihapus!',
                                 icon: 'success',
@@ -275,7 +263,7 @@
                                 }
                             });
                         },
-                        error: function (response) {
+                        error: function(response) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Data gagal dihapus!',

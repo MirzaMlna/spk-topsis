@@ -2,66 +2,58 @@
 
 @section('container')
     <div class="flex flex-wrap -mx-3">
-        <div class="flex-none w-full max-w-full px-3">
-            <div class="relative flex flex-col min-w-0 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-                <div class="flex flex-row items-center justify-between p-6 pb-0 mb-4 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                    <h6>Tabel {{ $judul }}</h6>
-                    <label for="add_button" class="cursor-pointer inline-block px-3 py-2 font-bold text-center text-white rounded-lg text-sm ease-soft-in shadow-soft-md bg-gradient-to-br from-greenPrimary to-greenPrimary/80 shadow-soft-md hover:shadow-soft-xs active:opacity-85 hover:scale-102 transition-all">
-                        <i class="ri-add-fill"></i>
-                        Tambah {{ $judul }}
+        <div class="w-full px-3">
+            <div class="bg-white shadow rounded-xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h6 class="text-lg font-semibold">Tabel {{ $judul }}</h6>
+                    <label for="add_button"
+                        class="cursor-pointer px-3 py-2 font-bold text-white rounded-lg text-sm bg-green-600 hover:bg-green-500 transition">
+                        <i class="ri-add-fill"></i> Tambah {{ $judul }}
                     </label>
                 </div>
-                <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
-                    <table id="tabel_data" class="stripe hover" style="width:100%; padding-top: 1em; padding-bottom: 1em;">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Aksi</th>
+                <table class="w-full text-sm border-t border-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="text-left py-2 px-4">Nama</th>
+                            <th class="text-left py-2 px-4">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $item)
+                            <tr class="border-b border-gray-200">
+                                <td class="py-2 px-4">{{ $item->objek->nama }}</td>
+                                <td class="py-2 px-4">
+                                    <button
+                                        onclick="return delete_button('{{ $item->id }}', '{{ $item->objek->nama }}');"
+                                        class="text-red-500 hover:text-red-700">
+                                        <i class="ri-delete-bin-line text-xl"></i>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                                <tr>
-                                    <td>{{ $item->objek->nama }}</td>
-                                    <td class="flex gap-x-3">
-                                        <button onclick="return delete_button('{{ $item->id }}', '{{ $item->objek->nama }}');">
-                                            <i class="ri-delete-bin-line text-xl"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
 
-            {{-- Form Tambah Data --}}
-            <input type="checkbox" id="add_button" class="modal-toggle" />
+            <!-- Form Tambah Data -->
+            <input type="checkbox" id="add_button" class="modal-toggle">
             <div class="modal">
                 <div class="modal-box">
-                    <form action="{{ route('alternatif.simpan') }}" method="post" enctype="multipart/form-data">
-                        <h3 class="font-bold text-lg">Tambah {{ $judul }}</h3>
-                            @csrf
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Pilih Objek</span>
-                                </label>
-                                <select class="select select-bordered text-dark" name="objek_id[]" id="objek_id" multiple="multiple">
-                                    {{-- <option disabled selected>Pilih Objek!</option> --}}
-                                    @foreach ($objek as $item)
-                                        @if (old('objek_id') == $item->id)
-                                            <option value="{{ $item->id }}" selected>{{ $item->nama }}</option>
-                                        @else
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                <label class="label">
-                                    @error('objek_id')
-                                        <span class="label-text-alt text-error">{{ $message }}</span>
-                                    @enderror
-                                </label>
-                            </div>
+                    <form action="{{ route('alternatif.simpan') }}" method="post">
+                        @csrf
+                        <h3 class="font-bold text-lg mb-4">Tambah {{ $judul }}</h3>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-1">Pilih Objek</label>
+                            <select class="w-full border rounded px-3 py-2" name="objek_id[]" id="objek_id" multiple>
+                                @foreach ($objek as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ old('objek_id') == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('objek_id')
+                                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <div class="modal-action">
                             <button type="submit" class="btn btn-success">Simpan</button>
                             <label for="add_button" class="btn">Batal</label>
@@ -76,17 +68,9 @@
 
 @section('js')
     <script>
-        // Tabel
         $(document).ready(function() {
-            $('#tabel_data').DataTable({
-                responsive: true,
-                order: [],
-            })
-            .columns.adjust()
-            .responsive.recalc();
-
-            $("#objek_id").select2({
-                placeholder: "Select",
+            $('#objek_id').select2({
+                placeholder: "Pilih Objek",
                 allowClear: true
             });
         });
@@ -96,8 +80,7 @@
                 title: 'Berhasil',
                 text: '{{ session('berhasil') }}',
                 icon: 'success',
-                confirmButtonColor: '#6419E6',
-                confirmButtonText: 'OK',
+                confirmButtonColor: '#16a34a',
             });
         @endif
 
@@ -106,32 +89,30 @@
                 title: 'Gagal',
                 text: '{{ session('gagal') }}',
                 icon: 'error',
-                confirmButtonColor: '#6419E6',
-                confirmButtonText: 'OK',
+                confirmButtonColor: '#ef4444',
             });
         @endif
 
         @if ($errors->any())
             Swal.fire({
                 title: 'Gagal',
-                text: @foreach ($errors->all() as $error) '{{ $error }}' @endforeach,
+                text: @foreach ($errors->all() as $error)
+                    '{{ $error }}'
+                @endforeach ,
                 icon: 'error',
-                confirmButtonColor: '#6419E6',
-                confirmButtonText: 'OK',
-            })
+                confirmButtonColor: '#ef4444',
+            });
         @endif
 
         function delete_button(id, nama) {
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                html:
-                    "<p>Data tidak dapat dipulihkan kembali!</p>" +
-                    "<div class='divider'></div>" +
-                    "<b>Data: " + nama + "</b>",
+                html: "<p>Data tidak dapat dipulihkan kembali!</p><div class='divider'></div><b>Data: " + nama +
+                    "</b>",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#6419E6',
-                cancelButtonColor: '#F87272',
+                confirmButtonColor: '#d97706',
+                cancelButtonColor: '#ef4444',
                 confirmButtonText: 'Hapus Data!',
                 cancelButtonText: 'Batal',
             }).then((result) => {
@@ -143,19 +124,14 @@
                             "_token": "{{ csrf_token() }}",
                             "id": id
                         },
-                        success: function (response) {
+                        success: function() {
                             Swal.fire({
                                 title: 'Data berhasil dihapus!',
                                 icon: 'success',
-                                confirmButtonColor: '#6419E6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();
-                                }
-                            });
+                                confirmButtonColor: '#16a34a',
+                            }).then(() => location.reload());
                         },
-                        error: function (response) {
+                        error: function() {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Data gagal dihapus!',
@@ -163,7 +139,7 @@
                         }
                     });
                 }
-            })
+            });
         }
     </script>
 @endsection

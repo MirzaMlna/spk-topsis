@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,14 @@
     @include('dashboard.layouts.link')
     @yield('css')
 </head>
-<body class="font-lato antialiased font-normal text-base leading-default bg-backgroundPrimary text-greenPrimary scrollbar-thin scrollbar-thumb-greenPrimary scrollbar-track-greenPrimary/60 scrollbar-thumb-rounded-full hover:scrollbar-thumb-greenPrimary/80 transition-all">
+
+<body
+    class="font-lato antialiased font-normal text-base leading-default bg-white text-black scrollbar-thin scrollbar-thumb-black scrollbar-track-black/60 scrollbar-thumb-rounded-full hover:scrollbar-thumb-black/80 transition-all">
     @include('dashboard.layouts.sidebar')
 
     <main class="ease-soft-in-out xl:ml-68.5 relative h-screen rounded-xl transition-all duration-200">
         @include('dashboard.layouts.navbar')
-        <div class="w-full px-6 py-6 mx-auto bg-backgroundPrimary">
+        <div class="w-full px-6 py-6 mx-auto bg-white">
             @yield('container')
             @include('dashboard.layouts.footer')
         </div>
@@ -27,4 +30,5 @@
     @include('dashboard.layouts.script')
     @yield('js')
 </body>
+
 </html>

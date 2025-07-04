@@ -5,11 +5,9 @@
                 <div class="leading-normal text-center text-sm text-slate-500 lg:text-left">
                     ©
                     <script>
-                        document.write(new Date().getFullYear() + ",");
+                        document.write(new Date().getFullYear() + " ");
                     </script>
-                    made with <i class="ri-heart-fill text-red-500"></i> by
-                    <a href="https://github.com/Akbarwp" class="font-semibold text-slate-700" target="_blank">AkbarWP</a>
-                    for a better web.
+                    TOPSIS
                 </div>
             </div>
         </div>
