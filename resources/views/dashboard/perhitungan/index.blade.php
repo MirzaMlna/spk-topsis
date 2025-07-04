@@ -7,11 +7,11 @@
             <div class="bg-white shadow rounded-xl p-4 mb-6 flex gap-2">
                 <form action="{{ 'hitung_topsis' }}" method="post">
                     @csrf
-                    <button type="submit" class="btn bg-green-600 text-white hover:bg-green-500">Hitung TOPSIS</button>
+                    <button type="submit" class="btn text-green-900 ">Hitung TOPSIS</button>
                 </form>
                 <form action="{{ 'pdf_topsis' }}" method="post" target="_blank">
                     @csrf
-                    <button type="submit" class="btn bg-red-600 text-white hover:bg-red-500">
+                    <button type="submit" class="btn text-red-600 ">
                         <i class="ri-file-pdf-line mr-1"></i> Export PDF
                     </button>
                 </form>

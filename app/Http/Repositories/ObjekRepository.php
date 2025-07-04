@@ -35,10 +35,14 @@ class ObjekRepository
 
     public function perbarui($id, $data)
     {
-        $data = $this->objek->where('id', $id)->update([
+        $updateData = [
             "nama" => $data['nama'],
-        ]);
-        return $data;
+        ];
+        if (isset($data['foto'])) {
+            $updateData['foto'] = $data['foto'];
+        }
+        $result = $this->objek->where('id', $id)->update($updateData);
+        return $result;
     }
 
     public function hapus($id)

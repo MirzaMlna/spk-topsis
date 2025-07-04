@@ -16,6 +16,7 @@ class Objek extends Model
     public $timestamps = "true";
     protected $fillable = [
         "nama",
+        "foto",
     ];
 
     public function alternatif()

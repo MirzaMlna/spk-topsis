@@ -15,6 +15,7 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="text-left py-2 px-4">Nama</th>
+                            <th class="text-left py-2 px-4">Foto</th>
                             <th class="text-left py-2 px-4">Aksi</th>
                         </tr>
                     </thead>
@@ -22,6 +23,14 @@
                         @foreach ($data as $item)
                             <tr class="border-b border-gray-200">
                                 <td class="py-2 px-4">{{ $item->objek->nama }}</td>
+                                <td class="py-2 px-4">
+                                    @if ($item->objek->foto)
+                                        <img src="{{ asset('storage/' . $item->objek->foto) }}" alt="Foto"
+                                            class="w-16 h-16 object-cover rounded" />
+                                    @else
+                                        <span class="text-gray-400">-</span>
+                                    @endif
+                                </td>
                                 <td class="py-2 px-4">
                                     <button
                                         onclick="return delete_button('{{ $item->id }}', '{{ $item->objek->nama }}');"

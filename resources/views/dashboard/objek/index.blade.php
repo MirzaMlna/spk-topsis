@@ -22,6 +22,7 @@
                         <thead class="bg-gray-100">
                             <tr>
                                 <th class="py-3 px-4 text-left">Nama</th>
+                                <th class="py-3 px-4 text-left">Foto</th>
                                 <th class="py-3 px-4 text-left">Aksi</th>
                             </tr>
                         </thead>
@@ -29,6 +30,14 @@
                             @foreach ($data as $item)
                                 <tr class="border-t hover:bg-gray-50 transition">
                                     <td class="py-2 px-4">{{ $item->nama }}</td>
+                                    <td class="py-2 px-4">
+                                        @if ($item->foto)
+                                            <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto"
+                                                class="w-16 h-16 object-cover rounded" />
+                                        @else
+                                            <span class="text-gray-400">-</span>
+                                        @endif
+                                    </td>
                                     <td class="py-2 px-4">
                                         <div class="flex items-center gap-3">
                                             <label for="edit_button" class="cursor-pointer text-green-900"
@@ -63,8 +72,16 @@
                                 <span class="text-error text-sm mt-1">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="form-control w-full mt-2">
+                            <label class="label font-medium">Foto (jpg, jpeg, png, max 2MB)</label>
+                            <input type="file" name="foto" accept="image/*"
+                                class="file-input file-input-bordered w-full max-w-xs" />
+                            @error('foto')
+                                <span class="text-error text-sm mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <div class="modal-action">
-                            <button type="submit" class="btn bg-green-900 text-white hover:bg-green-800">Simpan</button>
+                            <button type="submit" class="btn btn-success">Simpan</button>
                             <label for="add_button" class="btn">Batal</label>
                         </div>
                     </form>
@@ -89,6 +106,14 @@
                                 <span class="text-error text-sm mt-1">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="form-control w-full mt-2">
+                            <label class="label font-medium">Foto (jpg, jpeg, png, max 2MB)</label>
+                            <input type="file" name="foto" accept="image/*"
+                                class="file-input file-input-bordered w-full max-w-xs" />
+                            @error('foto')
+                                <span class="text-error text-sm mt-1">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <div class="modal-action">
                             <button type="submit" class="btn bg-green-900 text-white hover:bg-green-800">Perbarui</button>
                             <label for="edit_button" class="btn">Batal</label>
@@ -107,8 +132,8 @@
                         <h3 class="font-bold text-lg text-green-900 mb-4">Import {{ $judul }}</h3>
                         <div class="form-control w-full">
                             <label class="label font-medium">File Import</label>
-                            <input type="file" name="import_data" class="file-input file-input-bordered w-full max-w-xs"
-                                required />
+                            <input type="file" name="import_data"
+                                class="file-input file-input-bordered w-full max-w-xs" required />
                             @error('import_data')
                                 <span class="text-error text-sm mt-1">{{ $message }}</span>
                             @enderror
@@ -197,7 +222,7 @@
             });
         }
 
-        // Fungsi untuk konfirmasi dan menghapus data
+        // Fungsi untuk konfirmasi and menghapus data
         function delete_button(id, nama) {
             Swal.fire({
                 title: 'Yakin ingin menghapus?',
