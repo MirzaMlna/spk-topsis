@@ -25,8 +25,13 @@
                                 <td class="py-2 px-4">{{ $item->objek->nama }}</td>
                                 <td class="py-2 px-4">
                                     @if ($item->objek->foto)
-                                        <img src="{{ asset('storage/' . $item->objek->foto) }}" alt="Foto"
-                                            class="w-16 h-16 object-cover rounded" />
+                                        @if (Str::endsWith($item->objek->foto, '.pdf'))
+                                            <a href="{{ asset('storage/' . $item->objek->foto) }}" target="_blank"
+                                                class="text-blue-600 underline">Lihat PDF</a>
+                                        @else
+                                            <img src="{{ asset('storage/' . $item->objek->foto) }}" alt="Foto"
+                                                class="w-16 h-16 object-cover rounded" />
+                                        @endif
                                     @else
                                         <span class="text-gray-400">-</span>
                                     @endif
