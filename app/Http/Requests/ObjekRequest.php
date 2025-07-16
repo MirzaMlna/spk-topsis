@@ -25,7 +25,7 @@ class ObjekRequest extends FormRequest
     {
         return [
             "nama" => "required|string|max:255",
-            "foto" => "nullable|image|mimes:jpg,jpeg,png|max:2048",
+            "foto" => "nullable|file|mimes:jpg,jpeg,png,pdf|max:2048",
         ];
     }
 }

@@ -164,6 +164,22 @@
 
 @section('js')
     <script>
+        // Script untuk mengisi kriteria_id pada form tambah
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll("[id^='label_']").forEach(function(label) {
+                label.addEventListener("click", function() {
+                    var kriteriaNama = this.id.replace("label_", "");
+                    @foreach ($data as $item)
+                        if ("{{ $item['kriteria'] }}" === kriteriaNama) {
+                            document.getElementById("kriteria_id_add_button").value =
+                                "{{ $item['kriteria_id'] }}";
+                            document.getElementById("title_add_button").innerText = kriteriaNama;
+                        }
+                    @endforeach
+                });
+            });
+        });
+
         @if (session()->has('berhasil'))
             Swal.fire({
                 title: 'Berhasil',

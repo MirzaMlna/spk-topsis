@@ -32,8 +32,12 @@
                                     <td class="py-2 px-4">{{ $item->nama }}</td>
                                     <td class="py-2 px-4">
                                         @if ($item->foto)
-                                            <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto"
-                                                class="w-16 h-16 object-cover rounded" />
+                                            @if(Str::endsWith($item->foto, '.pdf'))
+                                                <a href="{{ asset('storage/' . $item->foto) }}" target="_blank" class="text-blue-600 underline">Lihat PDF</a>
+                                            @else
+                                                <img src="{{ asset('storage/' . $item->foto) }}" alt="File"
+                                                    class="w-16 h-16 object-cover rounded" />
+                                            @endif
                                         @else
                                             <span class="text-gray-400">-</span>
                                         @endif
@@ -73,8 +77,8 @@
                             @enderror
                         </div>
                         <div class="form-control w-full mt-2">
-                            <label class="label font-medium">Foto (jpg, jpeg, png, max 2MB)</label>
-                            <input type="file" name="foto" accept="image/*"
+                            <label class="label font-medium">File (jpg, jpeg, png, pdf, max 2MB)</label>
+                            <input type="file" name="foto" accept="image/*,.pdf"
                                 class="file-input file-input-bordered w-full max-w-xs" />
                             @error('foto')
                                 <span class="text-error text-sm mt-1">{{ $message }}</span>
@@ -107,8 +111,8 @@
                             @enderror
                         </div>
                         <div class="form-control w-full mt-2">
-                            <label class="label font-medium">Foto (jpg, jpeg, png, max 2MB)</label>
-                            <input type="file" name="foto" accept="image/*"
+                            <label class="label font-medium">File (jpg, jpeg, png, pdf, max 2MB)</label>
+                            <input type="file" name="foto" accept="image/*,.pdf"
                                 class="file-input file-input-bordered w-full max-w-xs" />
                             @error('foto')
                                 <span class="text-error text-sm mt-1">{{ $message }}</span>

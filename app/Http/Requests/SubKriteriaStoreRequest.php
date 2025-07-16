@@ -35,7 +35,9 @@ class SubKriteriaStoreRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $cekKode = SubKriteria::where('kriteria_id', $this->kriteria_id)->get();
+        // Pastikan kriteria_id diambil dari request jika belum ada di properti
+        $kriteria_id = $this->kriteria_id ?? $this->input('kriteria_id');
+        $cekKode = SubKriteria::where('kriteria_id', $kriteria_id)->get();
         if ($cekKode->first() != null) {
             $ctr = 1;
             foreach ($cekKode as $item) {
@@ -43,11 +45,13 @@ class SubKriteriaStoreRequest extends FormRequest
             }
             $kode = rtrim($cekKode[0]->kode, "1") . $ctr;
         } else {
-            $kode = Kriteria::where('id', $this->kriteria_id)->first()['kode'] . 1;
+            $kriteria = Kriteria::where('id', $kriteria_id)->first();
+            $kode = ($kriteria ? $kriteria->kode : 'K') . 1;
         }
 
         $this->merge([
             'kode' => $kode,
+            'kriteria_id' => $kriteria_id,
         ]);
     }
 }
